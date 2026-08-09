@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahlatse Mokgawa — Portfolio Presentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FEFCF8;
+    --ink: #1A1A1A;
+    --ink-light: #3D3D3D;
+    --grey: #6B6B6B;
+    --grey-light: #A8A8A8;
+    --amber: #C9A227;
+    --amber-soft: rgba(201, 162, 39, 0.12);
+    --amber-mid: rgba(201, 162, 39, 0.25);
+    --border: #E8E2D9;
+    --code-bg: #1E1E2E;
+    --code-text: #E4E4E7;
+    --code-keyword: #FF79C6;
+    --code-string: #F1FA8C;
+    --code-func: #50FA7B;
+    --code-comment: #6272A4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--ink);
+    background: #E5E0D8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+  }
+
+  .pres-wrap {
+    background: var(--cream);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    max-width: 1000px;
+    width: 100%;
+  }
+
+  .slide-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--warm-white);
+  }
+
+  .slide-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .slide {
+    min-width: 100%;
+    height: 100%;
+    padding: 48px 60px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .branch-deco {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.06;
+  }
+
+  .branch-deco path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.5;
+  }
+
+  .branch-deco circle {
+    fill: var(--ink);
+  }
+
+  .slide h1 {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.08;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .slide h2 {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.15;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .slide h3 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0 0 8px 0;
+    color: var(--ink-light);
+  }
+
+  .slide .sub {
+    font-size: 17px;
+    color: var(--grey);
+    line-height: 1.5;
+    margin-bottom: 24px;
+    max-width: 520px;
+  }
+
+  .slide .tagline {
+    font-size: 13px;
+    color: var(--amber);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .slide .quote {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--grey);
+    border-left: 3px solid var(--amber);
+    padding-left: 16px;
+    margin: 16px 0;
+    max-width: 480px;
+    line-height: 1.5;
+  }
+
+  .flex-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .flex-grow { flex: 1; }
+  .center { align-items: center; justify-content: center; text-align: center; }
+  .mt-auto { margin-top: auto; }
+
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    flex: 1;
+  }
+
+  .card h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 8px 0;
+  }
+
+  .card p {
+    font-size: 14px;
+    color: var(--grey);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .screenshot-box {
+    background: linear-gradient(135deg, #F0EBE3 0%, #E8E2D9 100%);
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--grey-light);
+    font-size: 13px;
+    text-align: center;
+    padding: 16px;
+    min-height: 120px;
+  }
+
+  .screenshot-box strong {
+    color: var(--grey);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .code-block {
+    background: var(--code-bg);
+    color: var(--code-text);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-family: 'SF Mono', 'Fira Code', Monaco, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+    margin: 0;
+  }
+
+  .code-block .kw { color: var(--code-keyword); }
+  .code-block .str { color: var(--code-string); }
+  .code-block .fn { color: var(--code-func); }
+  .code-block .cm { color: var(--code-comment); }
+  .code-block .num { color: #BD93F9; }
+
+  .timeline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+
+  .timeline-node {
+    background: var(--amber-soft);
+    border: 1px solid var(--amber-mid);
+    color: var(--ink-light);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .timeline-arrow {
+    color: var(--amber);
+    font-size: 18px;
+  }
+
+  .skill-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .skill-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--ink-light);
+  }
+
+  .skill-item .arrow {
+    color: var(--amber);
+    font-size: 12px;
+  }
+
+  .skill-item .dest {
+    color: var(--grey);
+    font-size: 13px;
+  }
+
+  .prog-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  .prog-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .prog-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--amber-soft);
+    color: var(--amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .prog-body h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 2px 0;
+    color: var(--ink);
+  }
+
+  .prog-body p {
+    font-size: 13px;
+    color: var(--grey);
+    margin: 0;
+  }
+
+  .prog-question {
+    font-size: 13px;
+    color: var(--amber);
+    font-weight: 500;
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  .arch-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+
+  .arch-box {
+    background: var(--warm-white);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-light);
+    text-align: center;
+    min-width: 90px;
+  }
+
+  .arch-box.hl {
+    background: var(--amber-soft);
+    border-color: var(--amber-mid);
+  }
+
+  .arch-arrow {
+    color: var(--amber);
+    font-size: 20px;
+  }
+
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .ba-item {
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .ba-before {
+    background: #F5F0E8;
+    color: var(--grey);
+  }
+
+  .ba-after {
+    background: var(--amber-soft);
+    color: var(--ink-light);
+    font-weight: 500;
+  }
+
+  .ba-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+    opacity: 0.7;
+  }
+
+  .loop-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+
+  .loop-step {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-light);
+  }
+
+  .loop-step.hl {
+    background: var(--amber-soft);
+    border-color: var(--amber-mid);
+  }
+
+  .contact-block {
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  .contact-block .name {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .contact-block .role {
+    font-size: 15px;
+    color: var(--grey);
+    margin-bottom: 12px;
+  }
+
+  .contact-block .email {
+    font-size: 14px;
+    color: var(--amber);
+    font-weight: 500;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    gap: 12px;
+  }
+
+  .ctrl-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ctrl-btn {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+  }
+
+  .ctrl-btn:hover {
+    background: var(--amber-soft);
+    border-color: var(--amber-mid);
+  }
+
+  .ctrl-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .counter {
+    font-size: 13px;
+    color: var(--grey);
+    font-variant-numeric: tabular-nums;
+    min-width: 48px;
+    text-align: center;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--amber);
+    transition: width 0.4s ease;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .notes-panel {
+    background: #F0EBE3;
+    border-top: 1px solid var(--border);
+    padding: 0 24px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-light);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+
+  .notes-panel.open {
+    max-height: 280px;
+    padding: 16px 24px;
+  }
+
+  .notes-panel .notes-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .notes-panel .notes-time {
+    font-size: 12px;
+    color: var(--grey);
+    margin-bottom: 8px;
+  }
+
+  .ss-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .ss-grid .screenshot-box {
+    min-height: 90px;
+    font-size: 11px;
+  }
+
+  .timer-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--grey);
+  }
+
+  .timer-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--grey-light);
+  }
+
+  .timer-dot.active {
+    background: var(--amber);
+  }
+
+  @media (max-width: 768px) {
+    .slide { padding: 24px 20px; }
+    .slide h1 { font-size: 28px; }
+    .slide h2 { font-size: 22px; }
+    .flex-row { flex-direction: column; }
+    .skill-grid { grid-template-columns: 1fr; }
+    .ba-grid { grid-template-columns: 1fr; }
+    .ss-grid { grid-template-columns: 1fr; }
+    .timeline { gap: 6px; }
+    .timeline-node { font-size: 11px; padding: 6px 10px; }
+    .code-block { font-size: 10px; padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pres-wrap">
+  <div class="slide-viewport">
+    <div class="slide-track" id="slideTrack">
+
+      <!-- SLIDE 01: FROM SOWETO TO SOFTWARE -->
+      <div class="slide center" style="justify-content:center;">
+        <svg class="branch-deco" viewBox="0 0 280 560">
+          <path d="M200,0 Q180,80 220,140 Q260,200 200,280 Q140,360 180,420 Q220,480 200,560"/>
+          <circle cx="200" cy="140" r="4"/><circle cx="220" cy="280" r="4"/><circle cx="180" cy="420" r="4"/>
+        </svg>
+        <div class="tagline">Portfolio Presentation — iHub Africa Term 4</div>
+        <h1 style="font-size:52px; margin-bottom:12px;">MAHLATSE MOKGAWA</h1>
+        <p style="font-size:20px; color:var(--grey); margin-bottom:8px;">Emerging Frontend Developer</p>
+        <p style="font-size:16px; color:var(--amber); font-weight:600; letter-spacing:0.1em; margin-bottom:32px;">CREATE · EMPOWER · ELEVATE</p>
+        <p style="font-size:15px; color:var(--grey); max-width:460px; line-height:1.6;">
+          Bridging people, systems and technology through structured creativity.
+        </p>
+        <div style="margin-top:40px; display:flex; gap:24px; font-size:13px; color:var(--grey-light);">
+          <span>Empathetic</span><span>·</span><span>Efficient</span><span>·</span><span>Ever-Evolving</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 02: A NON-LINEAR PATH -->
+      <div class="slide">
+        <svg class="branch-deco" viewBox="0 0 280 560">
+          <path d="M200,0 Q160,100 200,200 Q240,300 180,400 Q140,500 200,560"/>
+          <circle cx="200" cy="100" r="4"/><circle cx="200" cy="200" r="4"/><circle cx="180" cy="300" r="4"/>
+          <circle cx="180" cy="400" r="4"/><circle cx="200" cy="500" r="4"/>
+        </svg>
+        <div class="tagline">Identity</div>
+        <h2>A NON-LINEAR PATH.</h2>
+        <div class="timeline">
+          <span class="timeline-node">Soweto</span><span class="timeline-arrow">→</span>
+          <span class="timeline-node">Creativity</span><span class="timeline-arrow">→</span>
+          <span class="timeline-node">Advertising</span><span class="timeline-arrow">→</span>
+          <span class="timeline-node">Financial Services</span><span class="timeline-arrow">→</span>
+          <span class="timeline-node">Technology</span><span class="timeline-arrow">→</span>
+          <span class="timeline-node" style="background:var(--amber-mid); color:var(--ink); font-weight:600;">Frontend Dev</span>
+        </div>
+        <p class="quote">"At the time, I saw it as a fall off. Looking back, I see it as redirection."</p>
+        <p class="sub" style="margin-top:auto;">Advertising gave me visual communication. Financial services gave me accuracy and customer responsibility. Creative work gave me curiosity and experimentation.</p>
+      </div>
+
+      <!-- SLIDE 03: THE QUESTIONS GOT BIGGER -->
+      <div class="slide">
+        <div class="tagline">Foundation</div>
+        <h2>THE QUESTIONS GOT BIGGER.</h2>
+        <p class="sub">The biggest change has been in the questions I ask.</p>
+        <div class="skill-grid">
+          <div class="skill-item"><span>How do I make this work?</span><span class="arrow">→</span><span class="dest">Where should this logic live?</span></div>
+          <div class="skill-item"><span>Component thinking</span><span class="arrow">→</span><span class="dest">Where should this state live?</span></div>
+          <div class="skill-item"><span>Building the pieces</span><span class="arrow">→</span><span class="dest">What happens when this grows?</span></div>
+          <div class="skill-item"><span>Local state</span><span class="arrow">→</span><span class="dest">Shared application state</span></div>
+          <div class="skill-item"><span>Individual work</span><span class="arrow">→</span><span class="dest">Team responsibility</span></div>
+          <div class="skill-item"><span>Reactive debugging</span><span class="arrow">→</span><span class="dest">Structured problem solving</span></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 04: GOOGLE KEEP -->
+      <div class="slide">
+        <div class="tagline">Foundation</div>
+        <h2>GOOGLE KEEP — BUILDING THE PIECES.</h2>
+        <div class="flex-row" style="margin-top:8px;">
+          <div class="flex-col flex-grow" style="gap:16px;">
+            <div class="screenshot-box" style="min-height:180px;">
+              <strong>Insert Screenshot</strong>
+              Google Keep Clone — React, Components, State, localStorage
+            </div>
+            <div class="code-block">const [notes, setNotes] = useState(() => {
+  const saved = localStorage.getItem('keep-notes');
+  return saved ? JSON.parse(saved) : [];
+});
+
+useEffect(() => {
+  localStorage.setItem('keep-notes', JSON.stringify(notes));
+}, [notes]);</div>
+          </div>
+          <div style="width:220px; flex-shrink:0;">
+            <div class="card" style="margin-bottom:12px;">
+              <h4>What I Built</h4>
+              <p>Creating, updating and deleting notes. State and local storage.</p>
+            </div>
+            <div class="card">
+              <h4>What It Taught Me</h4>
+              <p>How to break an interface into components and make those components actually do something.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 05: VECTOR DRIVE -->
+      <div class="slide">
+        <div class="tagline">Integration</div>
+        <h2>VECTOR DRIVE — EXTERNAL DATA.</h2>
+        <div class="flex-row" style="margin-top:8px;">
+          <div class="flex-col flex-grow" style="gap:16px;">
+            <div class="screenshot-box" style="min-height:160px;">
+              <strong>Insert Screenshot</strong>
+              Vector Drive — Automotive Manufacturer Catalog
+            </div>
+            <div class="arch-diagram" style="justify-content:flex-start;">
+              <div class="arch-box">External API</div><span class="arch-arrow">→</span>
+              <div class="arch-box hl">Custom Hook</div><span class="arch-arrow">→</span>
+              <div class="arch-box">Data</div><span class="arch-arrow">→</span>
+              <div class="arch-box">UI</div>
+            </div>
+          </div>
+          <div style="width:260px; flex-shrink:0;">
+            <div class="code-block" style="font-size:11px; padding:14px;">function <span class="fn">useManufacturers</span>() {
+  const [data, setData] = <span class="fn">useState</span>([]);
+  const [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>);
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="fn">fetch</span>(<span class="str">'/api/manufacturers'</span>)
+      .then(<span class="fn">res</span> => res.<span class="fn">json</span>())
+      .then(<span class="fn">setData</span>)
+      .finally(() => <span class="fn">setLoading</span>(<span class="kw">false</span>));
+  }, []);
+
+  <span class="kw">return</span> { data, loading };
+}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 06: PAWFINDER -->
+      <div class="slide">
+        <div class="tagline">Architecture</div>
+        <h2>PAWFINDER — SHARED STATE.</h2>
+        <p class="sub">Different parts of the application needed access to the same information. Dogs. Search state. Favourites. Loading and errors.</p>
+        <div class="ss-grid">
+          <div class="screenshot-box" style="min-height:90px;"><strong>Insert: Home / Explore</strong>All breeds loaded from API</div>
+          <div class="screenshot-box" style="min-height:90px;"><strong>Insert: Search Results</strong>Real-time breed filtering</div>
+          <div class="screenshot-box" style="min-height:90px;"><strong>Insert: Dog Details</strong>Breed info, temperament, photos</div>
+          <div class="screenshot-box" style="min-height:90px;"><strong>Insert: Favourites</strong>Shared state across routes</div>
+        </div>
+        <div class="flex-row" style="margin-top:12px; gap:12px;">
+          <div class="card" style="padding:12px 16px; flex:1;">
+            <p style="font-size:13px; margin:0;"><strong style="color:var(--ink);">My Role:</strong> Project Lead + State Management (Context API, Git workflow, coordination)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 07: LIVE PAWFINDER -->
+      <div class="slide">
+        <div class="tagline">Live Demo</div>
+        <h2>LIVE PAWFINDER.</h2>
+        <p class="sub">Rather than tell you that it works, let me show you.</p>
+        <div style="display:flex; justify-content:center; margin:20px 0;">
+          <div style="background:var(--warm-white); border:2px solid var(--border); border-radius:12px; padding:32px 48px; text-align:center; max-width:480px;">
+            <p style="font-size:16px; font-weight:600; color:var(--ink); margin-bottom:16px;">Demo Sequence</p>
+            <div style="display:flex; flex-direction:column; gap:10px; text-align:left;">
+              <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink-light);">
+                <span style="width:22px; height:22px; border-radius:50%; background:var(--amber-soft); color:var(--amber); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600;">1</span>
+                Open PawFinder live site
+              </div>
+              <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink-light);">
+                <span style="width:22px; height:22px; border-radius:50%; background:var(--amber-soft); color:var(--amber); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600;">2</span>
+                Search for "Bull"
+              </div>
+              <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink-light);">
+                <span style="width:22px; height:22px; border-radius:50%; background:var(--amber-soft); color:var(--amber); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600;">3</span>
+                Open American Bulldog details
+              </div>
+              <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink-light);">
+                <span style="width:22px; height:22px; border-radius:50%; background:var(--amber-soft); color:var(--amber); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600;">4</span>
+                Add to favourites
+              </div>
+              <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink-light);">
+                <span style="width:22px; height:22px; border-radius:50%; background:var(--amber-soft); color:var(--amber); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600;">5</span>
+                View favourites page — state shared
+              </div>
+            </div>
+            <p style="font-size:12px; color:var(--grey); margin-top:16px; font-style:italic;">Target: 60–90 seconds. Have screenshots as backup.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 08: WHERE SHOULD THE STATE LIVE? -->
+      <div class="slide">
+        <div class="tagline">Architecture</div>
+        <h2>WHERE SHOULD THE STATE LIVE?</h2>
+        <p class="sub">One option would have been to keep passing information through component props. But that starts becoming difficult to manage as the component tree gets deeper.</p>
+        <div style="display:flex; justify-content:center; margin:20px 0;">
+          <svg width="500" height="240" viewBox="0 0 500 240">
+            <rect x="190" y="90" width="120" height="60" rx="10" fill="rgba(201,162,39,0.12)" stroke="#C9A227" stroke-width="1.5"/>
+            <text x="250" y="125" text-anchor="middle" font-size="14" font-weight="600" fill="#1A1A1A" font-family="Inter,sans-serif">DogContext</text>
+            <rect x="30" y="20" width="110" height="40" rx="8" fill="#FAF7F2" stroke="#E8E2D9" stroke-width="1.5"/>
+            <text x="85" y="45" text-anchor="middle" font-size="12" fill="#3D3D3D" font-family="Inter,sans-serif">SearchBar</text>
+            <rect x="30" y="180" width="110" height="40" rx="8" fill="#FAF7F2" stroke="#E8E2D9" stroke-width="1.5"/>
+            <text x="85" y="205" text-anchor="middle" font-size="12" fill="#3D3D3D" font-family="Inter,sans-serif">DogGrid</text>
+            <rect x="360" y="20" width="110" height="40" rx="8" fill="#FAF7F2" stroke="#E8E2D9" stroke-width="1.5"/>
+            <text x="415" y="45" text-anchor="middle" font-size="12" fill="#3D3D3D" font-family="Inter,sans-serif">Favourites</text>
+            <rect x="360" y="180" width="110" height="40" rx="8" fill="#FAF7F2" stroke="#E8E2D9" stroke-width="1.5"/>
+            <text x="415" y="205" text-anchor="middle" font-size="12" fill="#3D3D3D" font-family="Inter,sans-serif">DogDetails</text>
+            <line x1="140" y1="40" x2="190" y2="105" stroke="#C9A227" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="140" y1="200" x2="190" y2="135" stroke="#C9A227" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="360" y1="40" x2="310" y2="105" stroke="#C9A227" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="360" y1="200" x2="310" y2="135" stroke="#C9A227" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <text x="250" y="155" text-anchor="middle" font-size="11" fill="#6B6B6B" font-family="Inter,sans-serif">dogs · search · favorites · loading · error</text>
+          </svg>
+        </div>
+        <p class="quote" style="margin:0 auto; max-width:440px; text-align:center; border-left:none; border-top:2px solid var(--amber); padding:12px 0 0 0;">I used Context API to create a shared place for that application state.</p>
+      </div>
+
+      <!-- SLIDE 09: DOGCONTEXT -->
+      <div class="slide">
+        <div class="tagline">Code Walkthrough</div>
+        <h2>DOGCONTEXT.</h2>
+        <p class="sub">This is the part of the project I was directly responsible for. I need to be able to add and remove dogs without introducing duplicates.</p>
+        <div class="code-block" style="font-size:11.5px; line-height:1.65;">const DogContext = <span class="fn">createContext</span>();
+
+<span class="kw">export function</span> <span class="fn">DogProvider</span>({ children }) {
+  const [dogs, setDogs] = <span class="fn">useState</span>([]);
+  const [search, setSearch] = <span class="fn">useState</span>(<span class="str">''</span>);
+  const [favorites, setFavorites] = <span class="fn">useState</span>([]);
+  const [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">false</span>);
+  const [error, setError] = <span class="fn">useState</span>(<span class="kw">null</span>);
+
+  const <span class="fn">toggleFavorite</span> = (dogId) => {
+    <span class="fn">setFavorites</span>(prev =>
+      prev.<span class="fn">includes</span>(dogId)
+        ? prev.<span class="fn">filter</span>(id => id !== dogId)
+        : [...prev, dogId]
+    );
+  };
+
+  <span class="kw">return</span> (
+    &lt;DogContext.Provider value={{ dogs, search, favorites, loading, error, toggleFavorite }}&gt;
+      {children}
+    &lt;/DogContext.Provider&gt;
+  );
+}</div>
+        <div class="flex-row" style="margin-top:12px; gap:12px;">
+          <div class="card" style="padding:10px 14px; flex:1;"><p style="font-size:12px; margin:0; color:var(--grey);"><strong style="color:var(--ink);">State:</strong> Centralised in one place</p></div>
+          <div class="card" style="padding:10px 14px; flex:1;"><p style="font-size:12px; margin:0; color:var(--grey);"><strong style="color:var(--ink);">Logic:</strong> toggleFavorite handles add/remove</p></div>
+          <div class="card" style="padding:10px 14px; flex:1;"><p style="font-size:12px; margin:0; color:var(--grey);"><strong style="color:var(--ink);">Access:</strong> Any component via useContext</p></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 10: CONTEXT API VS REDUX -->
+      <div class="slide">
+        <div class="tagline">Judgement</div>
+        <h2>CONTEXT API VS REDUX.</h2>
+        <div class="flex-row" style="margin-top:8px; gap:20px;">
+          <div class="flex-col flex-grow" style="gap:10px;">
+            <div class="card" style="opacity:0.6;">
+              <h4>Prop Drilling</h4>
+              <p>Too messy at this scale. Components too far apart in the tree.</p>
+            </div>
+            <div class="card" style="border-color:var(--amber); background:var(--amber-soft);">
+              <h4>Context API — Chosen</h4>
+              <p>Appropriate for the scope. Solved the problem we actually had.</p>
+            </div>
+            <div class="card" style="opacity:0.6;">
+              <h4>Redux — Not Needed</h4>
+              <p>Would add complexity without solving a problem we actually had. Reassess if the app grows.</p>
+            </div>
+          </div>
+          <div style="width:260px; flex-shrink:0;">
+            <div class="card" style="margin-bottom:12px;">
+              <h4>My Contribution</h4>
+              <p style="font-size:13px; line-height:1.6;">
+                Project Lead<br>
+                State Management Architecture<br>
+                Context Implementation<br>
+                API Integration<br>
+                Debugging & Git Workflow<br>
+                Team Coordination
+              </p>
+            </div>
+            <p style="font-size:12px; color:var(--grey); font-style:italic; margin:0;">"I did not build every part. I owned the parts that held it together."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 11: TEAM OWNERSHIP -->
+      <div class="slide">
+        <div class="tagline">Ownership</div>
+        <h2>TEAM OWNERSHIP.</h2>
+        <p class="sub">The difference between building something individually and taking responsibility for something a team is building.</p>
+        <div class="flex-row" style="gap:12px; margin-top:8px;">
+          <div class="card" style="text-align:center; padding:20px;">
+            <h4>Planning</h4>
+            <p style="font-size:13px;">Architecture decisions, task breakdown, timeline coordination</p>
+          </div>
+          <div class="card" style="text-align:center; padding:20px;">
+            <h4>Integration</h4>
+            <p style="font-size:13px;">API wiring, component composition, state flow</p>
+          </div>
+          <div class="card" style="text-align:center; padding:20px;">
+            <h4>Debugging</h4>
+            <p style="font-size:13px;">Structured investigation, root cause analysis, fixes</p>
+          </div>
+          <div class="card" style="text-align:center; padding:20px;">
+            <h4>Workflow</h4>
+            <p style="font-size:13px;">Git branching, pull requests, code review, team coordination</p>
+          </div>
+        </div>
+        <p class="quote" style="margin-top:20px;">"My role was Project Lead and State Management. I was not only writing code. I was also involved in planning, integration, debugging and helping keep the technical workflow moving."</p>
+      </div>
+
+      <!-- SLIDE 12: THE BIGGEST CHANGE -->
+      <div class="slide">
+        <div class="tagline">Reflection</div>
+        <h2>THE BIGGEST CHANGE.</h2>
+        <div class="ba-grid" style="margin-top:16px;">
+          <div class="ba-item"><div class="ba-label">Before</div>Hesitated when something did not work</div>
+          <div class="ba-item ba-after"><div class="ba-label">Now</div>Willing to investigate, try, break, fix, learn</div>
+          <div class="ba-item"><div class="ba-label">Before</div>Waited for permission to make mistakes</div>
+          <div class="ba-item ba-after"><div class="ba-label">Now</div>See mistakes as opportunities to learn</div>
+          <div class="ba-item"><div class="ba-label">Before</div>Component thinking only</div>
+          <div class="ba-item ba-after"><div class="ba-label">Now</div>Architecture and systems thinking</div>
+          <div class="ba-item"><div class="ba-label">Before</div>Learning mainly through consumption</div>
+          <div class="ba-item ba-after"><div class="ba-label">Now</div>Learning through building and reflection</div>
+        </div>
+        <p class="quote" style="margin-top:20px;">"I am still developing. But I am much more intentional about how I develop."</p>
+      </div>
+
+      <!-- SLIDE 13: FROM EMERGING TO DEPENDABLE -->
+      <div class="slide">
+        <div class="tagline">Direction</div>
+        <h2>FROM EMERGING DEVELOPER TO DEPENDABLE ENGINEER.</h2>
+        <div style="display:flex; justify-content:center; margin:24px 0;">
+          <svg width="520" height="100" viewBox="0 0 520 100">
+            <line x1="60" y1="50" x2="460" y2="50" stroke="#E8E2D9" stroke-width="2"/>
+            <circle cx="60" cy="50" r="8" fill="#C9A227"/>
+            <circle cx="200" cy="50" r="8" fill="#C9A227" opacity="0.5"/>
+            <circle cx="340" cy="50" r="8" fill="#C9A227" opacity="0.3"/>
+            <circle cx="460" cy="50" r="8" fill="#C9A227" opacity="0.15"/>
+            <text x="60" y="80" text-anchor="middle" font-size="12" fill="#3D3D3D" font-weight="600" font-family="Inter,sans-serif">Frontend</text>
+            <text x="200" y="80" text-anchor="middle" font-size="12" fill="#6B6B6B" font-family="Inter,sans-serif">Full-Stack</text>
+            <text x="340" y="80" text-anchor="middle" font-size="12" fill="#6B6B6B" font-family="Inter,sans-serif">Systems</text>
+            <text x="460" y="80" text-anchor="middle" font-size="12" fill="#A8A8A8" font-family="Inter,sans-serif">Ownership</text>
+          </svg>
+        </div>
+        <div class="flex-row" style="gap:12px; margin-top:8px;">
+          <div class="card" style="text-align:center; padding:16px;">
+            <h4>Immediate Focus</h4>
+            <p style="font-size:13px;">React, JavaScript, APIs, testing, Git, production-quality development</p>
+          </div>
+          <div class="card" style="text-align:center; padding:16px;">
+            <h4>Seeking</h4>
+            <p style="font-size:13px;">Junior frontend opportunity, internships, graduate programmes</p>
+          </div>
+          <div class="card" style="text-align:center; padding:16px;">
+            <h4>Direction</h4>
+            <p style="font-size:13px;">A direction I am committing to while staying open to what I learn along the way</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 14: THE BLUEPRINT + CLOSE -->
+      <div class="slide center" style="justify-content:center;">
+        <svg class="branch-deco" viewBox="0 0 280 560">
+          <path d="M200,0 Q220,120 160,240 Q120,360 200,480 Q240,520 200,560"/>
+          <circle cx="200" cy="120" r="4"/><circle cx="160" cy="240" r="4"/>
+          <circle cx="160" cy="360" r="4"/><circle cx="200" cy="480" r="4"/>
+        </svg>
+        <div class="tagline">Blueprint</div>
+        <h2 style="margin-bottom:24px;">THE BLUEPRINT.</h2>
+        <p style="font-size:16px; color:var(--grey); max-width:480px; line-height:1.6; text-align:center; margin-bottom:32px;">
+          Who am I becoming, and why am I moving in this direction?
+        </p>
+        <div class="flex-row" style="justify-content:center; gap:32px; margin-bottom:32px;">
+          <div style="text-align:center;">
+            <p style="font-size:14px; color:var(--grey); margin-bottom:4px;">Identity</p>
+            <p style="font-size:16px; font-weight:600; color:var(--ink);">Emerging Frontend Developer</p>
+            <p style="font-size:14px; color:var(--ink-light); margin-top:2px;">Creative Technologist · Systems Thinker</p>
+          </div>
+          <div style="text-align:center;">
+            <p style="font-size:14px; color:var(--grey); margin-bottom:4px;">Values</p>
+            <p style="font-size:16px; font-weight:600; color:var(--amber);">Empathetic · Efficient · Ever-Evolving</p>
+          </div>
+          <div style="text-align:center;">
+            <p style="font-size:14px; color:var(--grey); margin-bottom:4px;">Purpose</p>
+            <p style="font-size:16px; font-weight:600; color:var(--ink);">Create · Empower · Elevate</p>
+          </div>
+        </div>
+        <div style="width:100%; height:1px; background:var(--border); margin-bottom:32px; max-width:600px;"></div>
+        <p style="font-size:24px; font-weight:600; color:var(--ink); margin-bottom:8px;">LET'S BUILD WHAT'S NEXT.</p>
+        <div class="contact-block">
+          <div class="name">Mahlatse Mokgawa</div>
+          <div class="role">Emerging Frontend Developer</div>
+          <div class="email">mahlatsewebdev96@gmail.com</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl-group">
+      <button class="ctrl-btn" id="btnPrev">Prev</button>
+      <span class="counter" id="slideCounter">1 / 14</span>
+      <button class="ctrl-btn" id="btnNext">Next</button>
+    </div>
+    <div class="ctrl-group">
+      <button class="ctrl-btn" id="btnNotes">Notes</button>
+      <div class="timer-bar">
+        <div class="timer-dot" id="timerDot"></div>
+        <span id="timerText">0:00 / 15:00</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes-panel" id="notesPanel">
+    <div class="notes-label">Speaker Notes</div>
+    <div class="notes-time" id="notesTime">0:00–0:45 · 45 seconds</div>
+    <div id="notesContent"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var slides = document.querySelectorAll('.slide');
+  var track = document.getElementById('slideTrack');
+  var counter = document.getElementById('slideCounter');
+  var progress = document.getElementById('progressFill');
+  var notesPanel = document.getElementById('notesPanel');
+  var notesContent = document.getElementById('notesContent');
+  var notesTime = document.getElementById('notesTime');
+  var btnPrev = document.getElementById('btnPrev');
+  var btnNext = document.getElementById('btnNext');
+  var btnNotes = document.getElementById('btnNotes');
+  var timerText = document.getElementById('timerText');
+
+  var current = 0;
+  var total = slides.length;
+
+  var slideData = [
+    { time: "0:00–0:45", dur: "45s", note: "I am Mahlatse Mokgawa, an emerging frontend developer. My route into software was not a straight line. I have moved through creative work, advertising, financial services, and now software development. Creativity taught me how to think about people and communication. Financial services taught me discipline, accuracy and accountability. Software is where those experiences started coming together. [Look at audience. Pause.]" },
+    { time: "0:45–1:30", dur: "45s", note: "There were points where I genuinely thought I was moving backwards. At the time, I saw it as a fall off. Looking back, I see it as redirection. Advertising gave me visual communication. Financial services gave me accuracy and customer responsibility. Creative work gave me curiosity and experimentation. And development is teaching me how to turn those things into working systems. [Small gesture across journey.]" },
+    { time: "1:30–2:15", dur: "45s", note: "The biggest change for me has been in the questions I ask. When I started, the thinking was basically: How do I make this work? That is important. But as projects became more complex, the question started changing. Where should this logic live? Where should this state live? What happens when this application grows? That is the progression I want to show you. [Pause.]" },
+    { time: "2:15–3:00", dur: "45s", note: "Google Keep was one of my foundations. It was not my most technically complex project, but it taught me something important: how to break an interface into components and make those components actually do something. I worked with creating, updating and deleting notes, state and local storage. At that stage, I was learning how to build the pieces. [Brief glance at project.]" },
+    { time: "3:00–4:00", dur: "60s", note: "VectorDrive moved me one step further. Now I was not just managing things inside the application. I had to work with data coming from an external API. That introduced search, filtering, loading and error states, and it made me think more carefully about where the data-fetching logic belonged. The question moved from: How do I build this component? to: How should the application handle this responsibility? [Pause.]" },
+    { time: "4:00–5:00", dur: "60s", note: "That brings me to PawFinder, which best represents where I am now. It is a dog-search application, but technically it gave me a much bigger problem. Different parts of the application needed access to the same information. Dogs. Search state. Favourites. Loading and errors. The question became: Where should that shared state actually live? [Pause. Look at audience.]" },
+    { time: "5:00–6:30", dur: "90s", note: "Rather than tell you that it works, let me show you. [Open live site.] I will start with the main user flow. [Search.] From here, the user can move into the individual dog. [Open details.] And I will add this one to my favourites. [Favourite.] The interesting part is that this state is not only useful here. Another part of the application can use it. That is what I want to unpack next. [Return to presentation.]" },
+    { time: "6:30–7:30", dur: "60s", note: "This was the architectural question behind PawFinder. I had different components that needed access to the same information. One option would have been to keep passing that information through component props. But that starts becoming difficult to manage as the component tree gets deeper. So I used Context API to create a shared place for that application state. [Point briefly to architecture.]" },
+    { time: "7:30–9:30", dur: "120s", note: "This is the part of the project I was directly responsible for, so I will show you one small piece rather than walk through the whole file. Here I am creating the pieces of state the application needs — things like the dogs, favourites, loading and errors. For favourites, I need to be able to add and remove dogs, but I also need to make sure I do not introduce duplicates. When something changes, I create the new state rather than mutating the existing array. Then the components that need that information can consume it from the context. The important thing for me was not just learning how Context works. It was understanding why the state belonged at that level. [Brief point to code. Stop.]" },
+    { time: "9:30–10:30", dur: "60s", note: "I did have another option here: Redux. But I did not want to introduce complexity just because Redux is a more established state-management tool. For the scope of this project, Context API solved the problem we actually had. If the application became much larger and the state logic became more complex, I would reassess that decision. The decision was not: Context is better than Redux. It was: Context is appropriate for this scope. [Pause.]" },
+    { time: "10:30–11:30", dur: "60s", note: "PawFinder was also where I started experiencing the difference between building something individually and taking responsibility for something a team is building. My role was Project Lead and State Management. That meant I was not only writing code. I was also involved in planning, integration, debugging and helping keep the technical workflow moving. [Small nod.]" },
+    { time: "11:30–12:30", dur: "60s", note: "Looking back at where I started, the biggest change is not that I suddenly know everything. I definitely do not. The difference is that I am much more comfortable figuring things out. Earlier, I could hesitate when something did not work because I was not sure whether I was doing it right. Now, I am more willing to investigate the problem, try something, break it, fix it, and learn from what happened. I no longer wait for permission to make mistakes. I see mistakes as opportunities to learn. I am still developing. But I am much more intentional about how I develop. [Pause.]" },
+    { time: "12:30–13:30", dur: "60s", note: "So where does that leave me? Right now, I am looking for a junior frontend opportunity. My immediate focus is becoming dependable with React, JavaScript, APIs, testing, Git and production-quality development. Over time, I want to deepen that into stronger full-stack capability. I do not see that as a rigid five-year script. It is more like a direction I am committing to while staying open to what I learn along the way. [Look at audience.]" },
+    { time: "13:30–15:00", dur: "90s", note: "And that direction is captured in my Blueprint. The Blueprint answers a simple question for me: Who am I becoming, and why am I moving in this direction? My purpose is: Create. Empower. Elevate. I am looking for an environment where I can contribute, learn from experienced developers, and keep growing through real work. Let us build what is next. [State contact clearly.]" }
+  ];
+
+  function updateSlide() {
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    counter.textContent = (current + 1) + ' / ' + total;
+    progress.style.width = (((current + 1) / total) * 100) + '%';
+    btnPrev.disabled = (current === 0);
+    btnNext.disabled = (current === total - 1);
+    var d = slideData[current];
+    notesTime.textContent = d.time + ' · ' + d.dur;
+    notesContent.textContent = d.note;
+    timerText.textContent = d.time.split('–')[0] + ' / 15:00';
+  }
+
+  function goNext() {
+    if (current < total - 1) {
+      current++;
+      updateSlide();
+    }
+  }
+
+  function goPrev() {
+    if (current > 0) {
+      current--;
+      updateSlide();
+    }
+  }
+
+  function toggleNotes() {
+    notesPanel.classList.toggle('open');
+    btnNotes.textContent = notesPanel.classList.contains('open') ? 'Hide Notes' : 'Notes';
+  }
+
+  btnPrev.addEventListener('click', goPrev);
+  btnNext.addEventListener('click', goNext);
+  btnNotes.addEventListener('click', toggleNotes);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      goNext();
+    }
+    if (e.key === 'ArrowLeft') {
+      goPrev();
+    }
+    if (e.key === 'n' || e.key === 'N') {
+      toggleNotes();
+    }
+  });
+
+  updateSlide();
+})();
+</script>
+
+</body>
+</html>
